@@ -7,18 +7,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
 public class WordDisplay extends HBox {
-    String[] words = {"cake", "bird", "tree", "play", "frog", "book", "rain", "fish", 
-    "game", "ship", "apple", "beach", "chair", "dance", "eagle", "fancy", "glass", 
-    "happy", "igloo", "jelly", "banana", "camera", "dancer", "eleven", "falcon", 
-    "guitar", "hammer", "jacket", "killer", "laptop"};
+    String[] words = { "cake", "bird", "tree", "play", "frog", "book", "rain", "fish",
+            "game", "ship", "apple", "beach", "chair", "dance", "eagle", "fancy", "glass",
+            "happy", "igloo", "jelly", "banana", "camera", "dancer", "eleven", "falcon",
+            "guitar", "hammer", "jacket", "killer", "laptop" };
 
-    String wordToGuess;
+    String randomWord;
     Rectangle blank;
-
 
     public WordDisplay() {
         this.setSpacing(5);
         this.setPadding(new Insets(20));
+        randomWord = getRandomWord();
 
         for (char c = 'A'; c <= 'Z'; c++) {
             Button letterButton = new Button(String.valueOf(c));
@@ -27,10 +27,15 @@ public class WordDisplay extends HBox {
             this.getChildren().add(letterButton);
         }
 
-        
+        for (int i = 0; i < randomWord.length(); i++) {
+            blank = new Rectangle(i, 0, 50, 5);
+            blank.setTranslateX(-300);
+            blank.setTranslateY(-300);
+            this.getChildren().add(blank);
+        }
     }
 
-    public String getRandomWord(){
+    public String getRandomWord() {
         String randomWord = words[(int) Math.floor(Math.random() * words.length)];
         String word = randomWord;
         return word;

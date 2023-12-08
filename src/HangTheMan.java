@@ -25,7 +25,6 @@ public class HangTheMan extends Pane {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2.0); 
 
-
         // Draw the hangman figure 
         gc.strokeLine(100, 500, 400, 500); // Base line
         gc.strokeLine(250, 500, 250, 100); // Vertical pole

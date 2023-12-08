@@ -11,7 +11,6 @@ public class App extends Application {
         
         HangTheMan hangTheMan = new HangTheMan();
         WordDisplay wordDisplay = new WordDisplay();
-
         BorderPane bPane = new BorderPane();
 
         bPane.setLeft(hangTheMan);
