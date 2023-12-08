@@ -3,6 +3,7 @@
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 
@@ -14,6 +15,7 @@ public class WordDisplay extends HBox {
 
     String randomWord;
     Rectangle blank;
+    int letterSize = 40;
 
     public WordDisplay() {
         this.setSpacing(5);
@@ -22,8 +24,9 @@ public class WordDisplay extends HBox {
 
         for (char c = 'A'; c <= 'Z'; c++) {
             Button letterButton = new Button(String.valueOf(c));
-            letterButton.setPrefWidth(40);
-            letterButton.setPrefHeight(40);
+            letterButton.setPrefWidth(letterSize);
+            letterButton.setPrefHeight(letterSize);
+            letterButton.setOnMouseClicked(e -> guessLetter(letterButton.getText()));
             this.getChildren().add(letterButton);
         }
 
@@ -39,5 +42,9 @@ public class WordDisplay extends HBox {
         String randomWord = words[(int) Math.floor(Math.random() * words.length)];
         String word = randomWord;
         return word;
+    }
+
+    public void guessLetter(String letter) {
+        System.out.println(letter);
     }
 }
