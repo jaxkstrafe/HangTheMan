@@ -1,8 +1,13 @@
 import java.util.ArrayList;
+import java.util.Optional;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 
 public class GamePane extends Pane {
@@ -72,41 +77,13 @@ public class GamePane extends Pane {
     private void updateHangmanImage() {
         Image image;
         if (incorrectGuessCount <= 6)
-            image = new Image("images\\shrek-" + incorrectGuessCount + ".png");
+            image = new Image("images//shrek-" + incorrectGuessCount + ".png");
         else
-            image = new Image("images\\shrek-6.png");
+            image = new Image("images//shrek-6.png");
         hangmanImage.setImage(image);
     }
 
-    // This method keeps track of the incorrect guesses and once it reaches 6 the player loses
-    public void handleWrongGuess() {
-        incorrectGuessCount++;
-        System.out.println("Total wrong guesses: " + incorrectGuessCount); 
-
-        updateHangmanImage();
-
-        if(incorrectGuessCount >= 6){
-            endGame("You Lose! The word was " + wordToGuess);
-        }
-    }
-
-    public void handleCorrectGuess() {
-        correctGuessCount++; 
-
-        if (correctGuessCount >= wordToGuess.length()) {
-            endGame("Congratulations! You win!"); 
-            // in this method we could change the endGame class to display a popup that asks
-            // the user if they want to play again or quit
-        }
-    }
-
-    private void endGame(String message) {
-        System.out.println(message); // Print the end message to the console
-        // We could do some sort of pop up asking the player wheather they want to quit or restart after they win or lose
-    }
-
     public void guessLetter(char letter) {
-        letterButtonsOfAlphabet.get(letter - 'A').setDisable(true);
         boolean guess = false;
         for (int i = 0; i < letterButtonsOfWordToGuess.size(); i++) {
             for (int j = 0; j < wordToGuess.length(); j++) {
@@ -116,13 +93,101 @@ public class GamePane extends Pane {
                 }
             }
         }
-
         if(guess){
-            handleCorrectGuess();
+            handleCorrectGuess(letter);
         }
-        
         if (!guess) {
             handleWrongGuess();
+        }
+    }
+
+    public void handleCorrectGuess(char guessedLetter) {
+        int occurrences = countOccurrences(guessedLetter);
+        correctGuessCount += occurrences;
+
+        if (correctGuessCount == wordToGuess.length()) {
+            showEndGamePopup("Congratulations! You win!");
+        }
+    }
+
+    public void handleWrongGuess() {
+        incorrectGuessCount++;
+        System.out.println("Total wrong guesses: " + incorrectGuessCount); 
+
+        updateHangmanImage();
+
+        if(incorrectGuessCount >= 6){
+            showEndGamePopup("You Lose! The word was " + wordToGuess);
+        }
+    }
+
+    // This method handles how many occureneces of a letter there are in the word the player is guessing
+    // and update the count accordingly. For example if the word is glass and the player chooses s
+    // the count will be updated to 2 as there are 2 s's in the word glass
+    private int countOccurrences(char guessedLetter) {
+        int count = 0;
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            if (wordToGuess.charAt(i) == Character.toLowerCase(guessedLetter)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+
+    private void restartGame() {
+        wordToGuess = getRandomWord(words);
+        incorrectGuessCount = 0;
+        correctGuessCount = 0;
+        updateHangmanImage();
+        updateDisplayedWord();
+
+        // Re enables any letter buttons that were disabled
+        for (LetterButton letterButton : letterButtonsOfAlphabet) {
+            letterButton.setDisable(false); // Enable all alphabet buttons for guessing
+        }
+    }
+
+    // When the game is restarted this method will be called and resets the letterButtonsOfWordToGuess
+    private void updateDisplayedWord() {
+        getChildren().removeAll(letterButtonsOfWordToGuess); // Remove previous letter buttons
+
+        // Clear the list and add new LetterButton objects based on the length of the wordToGuess
+        letterButtonsOfWordToGuess.clear();
+        double startX = wordToGuessX;
+
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            LetterButton letterButton = new LetterButton(0, wordToGuessY, Character.MIN_VALUE);
+            letterButton.setTranslateX(i * (LetterButton.getWidthOfObject() * spacing) + startX);
+            letterButton.setTranslateY(wordToGuessY);
+            letterButton.setDisable(true);
+
+            getChildren().add(letterButton);
+            letterButtonsOfWordToGuess.add(letterButton);
+        }
+    }
+
+    // When the game is over the player will be shown this popup which will give them the option to 
+    // either quit and close the game or restart the game
+    private void showEndGamePopup(String message) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText(message);
+        alert.setContentText("What would you like to do?");
+
+        ButtonType restartButton = new ButtonType("Restart");
+        ButtonType quitButton = new ButtonType("Quit");
+        alert.getButtonTypes().setAll(restartButton, quitButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            if (result.get() == restartButton) {
+                restartGame();
+            } else if (result.get() == quitButton) {
+                Stage stage = (Stage) this.getScene().getWindow();
+                stage.close();
+            }
         }
     }
 }
