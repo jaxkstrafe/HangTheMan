@@ -17,6 +17,7 @@ public class GamePane extends Pane {
     Pane paneLetterButtons;
     double spacing;
     ArrayList<LetterButton> letterButtonsOfWordToGuess;
+    ArrayList<LetterButton> letterButtonsOfAlphabet;
     int incorrectGuessCount;
     int correctGuessCount;
     private ImageView hangmanImage;
@@ -25,6 +26,7 @@ public class GamePane extends Pane {
         spacing = 1.05;
         wordToGuess = getRandomWord(words);
         letterButtonsOfWordToGuess = new ArrayList<>();
+        letterButtonsOfAlphabet = new ArrayList<>();
         drawLetterButtons();
         incorrectGuessCount = 0;
         initializeHangmanImage();
@@ -47,6 +49,7 @@ public class GamePane extends Pane {
             char currentCharacter = c;
             letterButton.setOnMouseClicked(e -> guessLetter(currentCharacter));
             getChildren().add(letterButton);
+            letterButtonsOfAlphabet.add(letterButton);
         }
     }
 
@@ -69,9 +72,9 @@ public class GamePane extends Pane {
     private void updateHangmanImage() {
         Image image;
         if (incorrectGuessCount <= 6)
-            image = new Image(incorrectGuessCount + ".png");
+            image = new Image("images\\shrek-" + incorrectGuessCount + ".png");
         else
-            image = new Image("6.png");
+            image = new Image("images\\shrek-6.png");
         hangmanImage.setImage(image);
     }
 
@@ -108,6 +111,7 @@ public class GamePane extends Pane {
             for (int j = 0; j < wordToGuess.length(); j++) {
                 if (wordToGuess.charAt(j) == Character.toLowerCase(letter)) {
                     letterButtonsOfWordToGuess.get(j).setLetter(letter);
+                    letterButtonsOfAlphabet.get(letter - 'A').setDisable(true);
                     guess = true;
                 }
             }
