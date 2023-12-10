@@ -26,15 +26,17 @@ public class GamePane extends Pane {
     int incorrectGuessCount;
     int correctGuessCount;
     private ImageView hangmanImage;
+    private ImageView gallowsImage;
 
     public GamePane() {
         spacing = 1.05;
         wordToGuess = getRandomWord(words);
         letterButtonsOfWordToGuess = new ArrayList<>();
         letterButtonsOfAlphabet = new ArrayList<>();
+        initializeGallowsImage();
+        initializeHangmanImage();
         drawLetterButtons();
         incorrectGuessCount = 0;
-        initializeHangmanImage();
 
         for (int i = 0; i < wordToGuess.length(); i++) {
             letterButton = new LetterButton(0, wordToGuessY, Character.MIN_VALUE);
@@ -45,6 +47,7 @@ public class GamePane extends Pane {
             getChildren().add(letterButton);
             letterButtonsOfWordToGuess.add(letterButton);
         }
+        
     }
 
     public void drawLetterButtons() {
@@ -65,13 +68,24 @@ public class GamePane extends Pane {
     }
 
     private void initializeHangmanImage() {
-        this.hangmanImage = new ImageView(); 
-        this.hangmanImage.setFitWidth(350);
-        this.hangmanImage.setFitHeight(350);
-        this.hangmanImage.setTranslateX(50);
-        this.hangmanImage.setTranslateY(50);
+        hangmanImage = new ImageView(); 
+        hangmanImage.setFitWidth(350);
+        hangmanImage.setFitHeight(350);
+        hangmanImage.setTranslateX(60);
+        hangmanImage.setTranslateY(180);
+        hangmanImage.setScaleX(0.85);
+        hangmanImage.setScaleY(0.85);
         updateHangmanImage(); 
         getChildren().add(this.hangmanImage); 
+    }
+    private void initializeGallowsImage() {
+        gallowsImage = new ImageView();
+        gallowsImage.setTranslateX(-200);
+        gallowsImage.setTranslateY(100);
+        gallowsImage.setScaleX(1.5);
+        gallowsImage.setScaleY(1.5);
+        updateGallowsImage();
+        getChildren().add(gallowsImage); 
     }
 
     private void updateHangmanImage() {
@@ -81,6 +95,14 @@ public class GamePane extends Pane {
         else
             image = new Image("images//shrek-6.png");
         hangmanImage.setImage(image);
+    }
+    private void updateGallowsImage() {
+        Image image;
+        if (incorrectGuessCount <= 5)
+            image = new Image("images//gallows-closed.png");
+        else
+            image = new Image("images//gallows-open.png");
+        gallowsImage.setImage(image);
     }
 
     public void guessLetter(char letter) {
@@ -114,7 +136,9 @@ public class GamePane extends Pane {
         incorrectGuessCount++;
         System.out.println("Total wrong guesses: " + incorrectGuessCount); 
 
+        updateGallowsImage();
         updateHangmanImage();
+        
 
         if(incorrectGuessCount >= 6){
             showEndGamePopup("You Lose! The word was " + wordToGuess);
