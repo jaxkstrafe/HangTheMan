@@ -16,7 +16,7 @@
             "request": "launch",
             "mainClass": "App",
             "projectName": "HangTheMan_88b2746d",
-            "vmArgs": "Insert Your vmArgs here"
+            "vmArgs": "add your VMARGS here"
         }
     ]
 }

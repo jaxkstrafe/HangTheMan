@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+
 
 public class GamePane extends Pane {
     String[] words = { "cake", "bird", "tree", "play", "frog", "book", "rain", "fish",
@@ -16,13 +17,17 @@ public class GamePane extends Pane {
     Pane paneLetterButtons;
     double spacing;
     ArrayList<LetterButton> letterButtonsOfWordToGuess;
+    int incorrectGuessCount;
+    int correctGuessCount;
+    private ImageView hangmanImage;
 
     public GamePane() {
         spacing = 1.05;
         wordToGuess = getRandomWord(words);
         letterButtonsOfWordToGuess = new ArrayList<>();
-        drawExecutionDevice();
         drawLetterButtons();
+        incorrectGuessCount = 0;
+        initializeHangmanImage();
 
         for (int i = 0; i < wordToGuess.length(); i++) {
             letterButton = new LetterButton(0, wordToGuessY, Character.MIN_VALUE);
@@ -51,32 +56,89 @@ public class GamePane extends Pane {
         return word;
     }
 
-    private void drawExecutionDevice() {
-        /*
-         * GraphicsContext gc = canvas.getGraphicsContext2D();
-         * gc.setStroke(Color.BLACK);
-         * gc.setLineWidth(2.0);
-         * 
-         * // Draw the hangman figure
-         * gc.strokeLine(100, 500, 400, 500); // Base line
-         * gc.strokeLine(250, 500, 250, 100); // Vertical pole
-         * gc.strokeLine(250, 100, 350, 100); // Upper horizontal pole
-         * gc.strokeLine(350, 100, 350, 160); // Rope
-         */
+    private void initializeHangmanImage() {
+        this.hangmanImage = new ImageView(); 
+        this.hangmanImage.setFitWidth(350);
+        this.hangmanImage.setFitHeight(350);
+        this.hangmanImage.setTranslateX(50);
+        this.hangmanImage.setTranslateY(50);
+        updateHangmanImage(); 
+        getChildren().add(this.hangmanImage); 
     }
 
-    public void updateHangman(int incorrectGuessCount) {
-        // We could honestly just draw a couple images and assign each image a number
-        // which
-        // would correlate to how many wrong guesses the player has gotten
+    private void updateHangmanImage() {
+        Image image = new Image("0.png");
+        hangmanImage.setImage(image);
+        if(incorrectGuessCount == 1){
+            image = new Image("1.png");
+            this.hangmanImage.setImage(image);
+        }
+        else if(incorrectGuessCount == 2){
+            image = new Image("2.png");
+            this.hangmanImage.setImage(image);
+        }
+        else if(incorrectGuessCount == 3){
+            image = new Image("3.png");
+            this.hangmanImage.setImage(image);
+        }
+        else if(incorrectGuessCount == 4){
+            image = new Image("4.png");
+            this.hangmanImage.setImage(image);
+        }
+        else if(incorrectGuessCount == 5){
+            image = new Image("5.png");
+            this.hangmanImage.setImage(image);
+        }
+        else if(incorrectGuessCount == 6){
+            image = new Image("6.png");
+            this.hangmanImage.setImage(image);
+        }
+    }
+
+    // This method keeps track of the incorrect guesses and once it reaches 6 the player loses
+    public void handleWrongGuess() {
+        incorrectGuessCount++;
+        System.out.println("Total wrong guesses: " + incorrectGuessCount); 
+
+        updateHangmanImage();
+
+        if(incorrectGuessCount >= 6){
+            endGame("You Lose! The word was " + wordToGuess);
+        }
+    }
+
+    public void handleCorrectGuess() {
+        correctGuessCount++; 
+
+        if (correctGuessCount == wordToGuess.length()) {
+            endGame("Congratulations! You win!"); 
+            // in this method we could change the endGame class to display a popup that asks
+            // the user if they want to play again or quit
+        }
+    }
+
+    private void endGame(String message) {
+        System.out.println(message); // Print the end message to the console
+        // We could do some sort of pop up asking the player wheather they want to quit or restart after they win or lose
     }
 
     public void guessLetter(char letter) {
+        boolean guess = false;
         for (int i = 0; i < letterButtonsOfWordToGuess.size(); i++) {
             for (int j = 0; j < wordToGuess.length(); j++) {
-                if (wordToGuess.charAt(j) == Character.toLowerCase(letter))
+                if (wordToGuess.charAt(j) == Character.toLowerCase(letter)) {
                     letterButtonsOfWordToGuess.get(j).setLetter(letter);
+                    guess = true;
+                }
             }
+        }
+
+        if(guess){
+            handleCorrectGuess();
+        }
+        
+        if (!guess) {
+            handleWrongGuess();
         }
     }
 }
