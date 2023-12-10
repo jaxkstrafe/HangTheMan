@@ -67,32 +67,12 @@ public class GamePane extends Pane {
     }
 
     private void updateHangmanImage() {
-        Image image = new Image("0.png");
-        hangmanImage.setImage(image);
-        if(incorrectGuessCount == 1){
-            image = new Image("1.png");
-            this.hangmanImage.setImage(image);
-        }
-        else if(incorrectGuessCount == 2){
-            image = new Image("2.png");
-            this.hangmanImage.setImage(image);
-        }
-        else if(incorrectGuessCount == 3){
-            image = new Image("3.png");
-            this.hangmanImage.setImage(image);
-        }
-        else if(incorrectGuessCount == 4){
-            image = new Image("4.png");
-            this.hangmanImage.setImage(image);
-        }
-        else if(incorrectGuessCount == 5){
-            image = new Image("5.png");
-            this.hangmanImage.setImage(image);
-        }
-        else if(incorrectGuessCount == 6){
+        Image image;
+        if (incorrectGuessCount <= 6)
+            image = new Image(incorrectGuessCount + ".png");
+        else
             image = new Image("6.png");
-            this.hangmanImage.setImage(image);
-        }
+        hangmanImage.setImage(image);
     }
 
     // This method keeps track of the incorrect guesses and once it reaches 6 the player loses
@@ -110,7 +90,7 @@ public class GamePane extends Pane {
     public void handleCorrectGuess() {
         correctGuessCount++; 
 
-        if (correctGuessCount == wordToGuess.length()) {
+        if (correctGuessCount >= wordToGuess.length()) {
             endGame("Congratulations! You win!"); 
             // in this method we could change the endGame class to display a popup that asks
             // the user if they want to play again or quit

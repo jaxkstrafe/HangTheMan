@@ -13,6 +13,7 @@ public class LetterButton extends Button {
         setPrefWidth(width);
         setPrefHeight(height);
         setText(String.valueOf(letter));
+        setStyle("-fx-font-weight: bold");
     }
     public static double getWidthOfObject() {
         return width;
