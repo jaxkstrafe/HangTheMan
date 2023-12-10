@@ -106,12 +106,12 @@ public class GamePane extends Pane {
     }
 
     public void guessLetter(char letter) {
+        letterButtonsOfAlphabet.get(letter - 'A').setDisable(true);
         boolean guess = false;
         for (int i = 0; i < letterButtonsOfWordToGuess.size(); i++) {
             for (int j = 0; j < wordToGuess.length(); j++) {
                 if (wordToGuess.charAt(j) == Character.toLowerCase(letter)) {
                     letterButtonsOfWordToGuess.get(j).setLetter(letter);
-                    letterButtonsOfAlphabet.get(letter - 'A').setDisable(true);
                     guess = true;
                 }
             }
