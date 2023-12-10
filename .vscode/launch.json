@@ -10,21 +10,13 @@
             "request": "launch",
             "mainClass": "App",
             "projectName": "HangTheMan_816b7ddb",
-            "vmArgs": "--module-path C:\\Users\\19729\\Desktop\\ObjectOritented_Programming\\javafx-sdk-20.0.2\\lib --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": ""
         },
         {
             "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "HangTheMan_f0f5342b",
-            "vmArgs": "--module-path C:\\Users\\19729\\Desktop\\ObjectOritented_Programming\\javafx-sdk-20.0.2\\lib --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }
