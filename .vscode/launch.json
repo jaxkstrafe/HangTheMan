@@ -9,14 +9,16 @@
             "name": "App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "HangTheMan_816b7ddb",
+            "projectName": "HangTheMan_af07b0b8",
             "vmArgs": ""
         },
         {
             "type": "java",
-            "name": "Current File",
+            "name": "App",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "App",
+            "projectName": "HangTheMan_816b7ddb",
+            "vmArgs": ""
         }
     ]
 }

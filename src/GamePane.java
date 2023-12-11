@@ -44,16 +44,22 @@ public class GamePane extends Pane {
         drawLetterButtons();
         incorrectGuessCount = 0;
 
+        createWordToGuess();
+        
+    }
+
+    public void createWordToGuess(){
         for (int i = 0; i < wordToGuess.length(); i++) {
-            letterButton = new LetterButton(0, wordToGuessY, Character.MIN_VALUE);
+            LetterButton letterButton = new LetterButton(0, wordToGuessY, Character.MIN_VALUE);
             letterButton.setTranslateX(i * (LetterButton.getWidthOfObject() * spacing) + wordToGuessX);
             letterButton.setTranslateY(wordToGuessY);
             letterButton.setDisable(true);
 
+            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 18px; -fx-font-weight: bold; -fx-underline: true;");
+
             getChildren().add(letterButton);
             letterButtonsOfWordToGuess.add(letterButton);
         }
-        
     }
 
     public void drawLetterButtons() {
@@ -190,6 +196,8 @@ public class GamePane extends Pane {
         updateHangmanImage();
         updateDisplayedWord();
         updateBackgroundImage();
+        createWordToGuess();
+
 
         // Re enables any letter buttons that were disabled
         for (LetterButton letterButton : letterButtonsOfAlphabet) {
@@ -210,6 +218,8 @@ public class GamePane extends Pane {
             letterButton.setTranslateX(i * (LetterButton.getWidthOfObject() * spacing) + startX);
             letterButton.setTranslateY(wordToGuessY);
             letterButton.setDisable(true);
+            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 18px; -fx-font-weight: bold; -fx-underline: true;");
+
 
             getChildren().add(letterButton);
             letterButtonsOfWordToGuess.add(letterButton);
