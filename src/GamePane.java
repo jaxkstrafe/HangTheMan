@@ -27,14 +27,17 @@ public class GamePane extends Pane {
     int correctGuessCount;
     private ImageView hangmanImage;
     private ImageView gallowsImage;
+    private ImageView backgroundImage;
 
     public GamePane() {
         spacing = 1.05;
         wordToGuess = getRandomWord(words);
         letterButtonsOfWordToGuess = new ArrayList<>();
         letterButtonsOfAlphabet = new ArrayList<>();
+        initializeBackgroundImage();
         initializeGallowsImage();
         initializeHangmanImage();
+        
         drawLetterButtons();
         incorrectGuessCount = 0;
 
@@ -86,6 +89,16 @@ public class GamePane extends Pane {
         gallowsImage.setScaleY(1.5);
         updateGallowsImage();
         getChildren().add(gallowsImage); 
+    }
+    private void initializeBackgroundImage() {
+        backgroundImage = new ImageView();
+        Image img = new Image("images//background.jpg");
+        backgroundImage.setImage(img);
+        backgroundImage.setTranslateX(-400);
+        backgroundImage.setTranslateY(-300);
+        backgroundImage.setScaleX(0.75);
+        backgroundImage.setScaleY(0.75);
+        getChildren().add(backgroundImage); 
     }
 
     private void updateHangmanImage() {
