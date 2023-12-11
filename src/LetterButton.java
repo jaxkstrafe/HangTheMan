@@ -1,4 +1,5 @@
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 public class LetterButton extends Button {
     private static double width;
@@ -18,11 +19,11 @@ public class LetterButton extends Button {
         setStyle("-fx-font-weight: bold");
 
         setOnAction(e -> {
-            if (!guessed) {
-                setDisable(true); 
+            setDisable(true); 
+            if (!guessed)
                 guessed = true; 
-            }
         });
+        setTextFill(Color.BLACK);
     }
     public static double getWidthOfObject() {
         return width;
