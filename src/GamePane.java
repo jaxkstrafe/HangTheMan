@@ -13,10 +13,18 @@ import javafx.stage.Stage;
 
 
 public class GamePane extends Pane {
-    String[] words = { "cake", "bird", "tree", "play", "frog", "book", "rain", "fish",
-            "game", "ship", "apple", "beach", "chair", "dance", "eagle", "fancy", "glass",
-            "happy", "igloo", "jelly", "banana", "camera", "dancer", "eleven", "falcon",
-            "guitar", "hammer", "jacket", "killer", "laptop" };
+    String[] words = {
+        "cake", "bird", "tree", "play", "frog", "book", "rain", "fish",
+        "game", "ship", "apple", "beach", "chair", "dance", "eagle", "fancy",
+        "glass", "happy", "igloo", "jelly", "banana", "dancer", "eleven", 
+        "falcon", "guitar", "hammer", "jacket", "killer", "laptop", "zebra", 
+        "garden", "moon", "robot", "sunset", "dragon", "island", "ninja",
+        "octopus", "parrot", "quasar", "violet", "whale", "yacht", "zephyr",
+        "acoustic", "blossom", "cascade", "eclipse", "flamingo", "galaxy",
+        "lullaby", "monsoon", "candy", "blaze", "apple", "ghost", "happy", 
+        "magic", "music", "ocean", "piano", "queen", "river", "smile", "train", 
+        "umbra", "zebra", "fairy", "jelly", "lucky", "noble", "snail"
+    };
     String wordToGuess = "";
     Rectangle wordToGuessWhiteBackground;
     double wordToGuessX = 500;
@@ -54,9 +62,10 @@ public class GamePane extends Pane {
             letterButton.setTranslateX(i * (LetterButton.getWidthOfObject() * spacing) + wordToGuessX);
             letterButton.setTranslateY(wordToGuessY);
             letterButton.setDisable(true);
-
-            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 18px; -fx-font-weight: bold;");
-
+    
+            // Increase the font size for the word to guess
+            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 15px; -fx-font-weight: bold; -fx-underline: true;");
+    
             getChildren().add(letterButton);
             letterButtonsOfWordToGuess.add(letterButton);
         }
@@ -218,7 +227,7 @@ public class GamePane extends Pane {
             letterButton.setTranslateX(i * (LetterButton.getWidthOfObject() * spacing) + startX);
             letterButton.setTranslateY(wordToGuessY);
             letterButton.setDisable(true);
-            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 18px; -fx-font-weight: bold; -fx-underline: true;");
+            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 15px; -fx-font-weight: bold; -fx-underline: true;");
 
 
             getChildren().add(letterButton);

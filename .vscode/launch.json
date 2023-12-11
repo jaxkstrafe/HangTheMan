@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "App",
             "projectName": "HangTheMan_af07b0b8",
-            "vmArgs": ""
+            "vmArgs": "--module-path C:/Users/dalja/OneDrive/Desktop/Coding/javafx-sdk-21/lib --add-modules javafx.controls,javafx.fxml --enable-preview"
         },
         {
             "type": "java",
