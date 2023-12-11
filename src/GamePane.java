@@ -55,7 +55,7 @@ public class GamePane extends Pane {
             letterButton.setTranslateY(wordToGuessY);
             letterButton.setDisable(true);
 
-            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 18px; -fx-font-weight: bold; -fx-underline: true;");
+            letterButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-font-size: 18px; -fx-font-weight: bold;");
 
             getChildren().add(letterButton);
             letterButtonsOfWordToGuess.add(letterButton);
@@ -157,7 +157,7 @@ public class GamePane extends Pane {
         correctGuessCount += occurrences;
 
         if (correctGuessCount == wordToGuess.length()) {
-            showEndGamePopup("Congratulations! You win!");
+            showEndGamePopup("Congratulations! You win! The word was: " + wordToGuess);
         }
     }
 
