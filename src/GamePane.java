@@ -7,6 +7,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
@@ -16,6 +18,7 @@ public class GamePane extends Pane {
             "happy", "igloo", "jelly", "banana", "camera", "dancer", "eleven", "falcon",
             "guitar", "hammer", "jacket", "killer", "laptop" };
     String wordToGuess = "";
+    Rectangle wordToGuessWhiteBackground;
     double wordToGuessX = 500;
     double wordToGuessY = 200;
     LetterButton letterButton;
@@ -34,7 +37,7 @@ public class GamePane extends Pane {
         wordToGuess = getRandomWord(words);
         letterButtonsOfWordToGuess = new ArrayList<>();
         letterButtonsOfAlphabet = new ArrayList<>();
-        initializeBackgroundImage();
+        initializeBackgroundImages();
         initializeGallowsImage();
         initializeHangmanImage();
         
@@ -90,7 +93,7 @@ public class GamePane extends Pane {
         updateGallowsImage();
         getChildren().add(gallowsImage); 
     }
-    private void initializeBackgroundImage() {
+    private void initializeBackgroundImages() {
         backgroundImage = new ImageView();
         Image img = new Image("images//background.jpg");
         backgroundImage.setImage(img);
@@ -98,7 +101,11 @@ public class GamePane extends Pane {
         backgroundImage.setTranslateY(-300);
         backgroundImage.setScaleX(0.75);
         backgroundImage.setScaleY(0.75);
-        getChildren().add(backgroundImage); 
+        
+        wordToGuessWhiteBackground = new Rectangle(wordToGuessX, wordToGuessY, wordToGuess.length() * (LetterButton.getWidthOfObject() * spacing), 50);
+        updateBackgroundImage();
+        wordToGuessWhiteBackground.setFill(Color.WHITE);
+        getChildren().addAll(backgroundImage, wordToGuessWhiteBackground); 
     }
 
     private void updateHangmanImage() {
@@ -116,6 +123,9 @@ public class GamePane extends Pane {
         else
             image = new Image("images//gallows-open.png");
         gallowsImage.setImage(image);
+    }
+    private void updateBackgroundImage() {
+        wordToGuessWhiteBackground.setWidth(wordToGuess.length() * (LetterButton.getWidthOfObject() * spacing));
     }
 
     public void guessLetter(char letter) {
@@ -179,6 +189,7 @@ public class GamePane extends Pane {
         correctGuessCount = 0;
         updateHangmanImage();
         updateDisplayedWord();
+        updateBackgroundImage();
 
         // Re enables any letter buttons that were disabled
         for (LetterButton letterButton : letterButtonsOfAlphabet) {

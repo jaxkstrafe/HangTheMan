@@ -2,12 +2,11 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 public class LetterButton extends Button {
-    private static double width;
+    private static double width = 35;
     private static double height;
     private char letter;
     private boolean guessed;
     public LetterButton(double x, double y, char letter) {
-        width = 35;
         height = 50;
         guessed = false;
         
