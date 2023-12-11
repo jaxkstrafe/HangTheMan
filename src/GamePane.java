@@ -1,20 +1,26 @@
 import java.util.ArrayList;
 import java.util.Optional;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
 public class GamePane extends Pane {
+    static String genre = "";
     String[] words = {
-        "cake", "bird", "tree", "play", "frog", "book", "rain", "fish",
+        /*"cake", "bird", "tree", "play", "frog", "book", "rain", "fish",
         "game", "ship", "apple", "beach", "chair", "dance", "eagle", "fancy",
         "glass", "happy", "igloo", "jelly", "banana", "dancer", "eleven", 
         "falcon", "guitar", "hammer", "jacket", "killer", "laptop", "zebra", 
@@ -23,7 +29,7 @@ public class GamePane extends Pane {
         "acoustic", "blossom", "cascade", "eclipse", "flamingo", "galaxy",
         "lullaby", "monsoon", "candy", "blaze", "apple", "ghost", "happy", 
         "magic", "music", "ocean", "piano", "queen", "river", "smile", "train", 
-        "umbra", "zebra", "fairy", "jelly", "lucky", "noble", "snail"
+        "umbra", "zebra", "fairy", "jelly", "lucky", "noble", "snail"*/
     };
     String wordToGuess = "";
     Rectangle wordToGuessWhiteBackground;
@@ -39,8 +45,14 @@ public class GamePane extends Pane {
     private ImageView hangmanImage;
     private ImageView gallowsImage;
     private ImageView backgroundImage;
+    private Label incorrectGuessLabel;
 
     public GamePane() {
+        if (genre == "SFA") {words = WordList.sfa;}
+        else if (genre.equals("Computer Science")) {words = WordList.compSci;}
+        else if (genre.equals("Animals")) {words = WordList.animals;}
+        else if (genre.equals("Miscellaneous")) {words = WordList.misc;}
+        else {words = WordList.all;}
         spacing = 1.05;
         wordToGuess = getRandomWord(words);
         letterButtonsOfWordToGuess = new ArrayList<>();
@@ -48,6 +60,7 @@ public class GamePane extends Pane {
         initializeBackgroundImages();
         initializeGallowsImage();
         initializeHangmanImage();
+        intializeIncorrectCounter();
         
         drawLetterButtons();
         incorrectGuessCount = 0;
@@ -122,6 +135,13 @@ public class GamePane extends Pane {
         wordToGuessWhiteBackground.setFill(Color.WHITE);
         getChildren().addAll(backgroundImage, wordToGuessWhiteBackground); 
     }
+    private void intializeIncorrectCounter() {
+        incorrectGuessLabel = new Label("Total Incorrect Guesses: " + incorrectGuessCount);
+        incorrectGuessLabel.setTextFill(Color.WHITE);
+        BorderPane bPane = new BorderPane(incorrectGuessLabel);
+        getChildren().add(bPane);
+        bPane.setViewOrder(-2);
+    }
 
     private void updateHangmanImage() {
         Image image;
@@ -172,8 +192,7 @@ public class GamePane extends Pane {
 
     public void handleWrongGuess() {
         incorrectGuessCount++;
-        System.out.println("Total wrong guesses: " + incorrectGuessCount); 
-
+        updateIncorrectGuessLabel();
         updateGallowsImage();
         updateHangmanImage();
         
@@ -206,6 +225,7 @@ public class GamePane extends Pane {
         updateDisplayedWord();
         updateBackgroundImage();
         createWordToGuess();
+        updateIncorrectGuessLabel();
 
 
         // Re enables any letter buttons that were disabled
@@ -234,7 +254,9 @@ public class GamePane extends Pane {
             letterButtonsOfWordToGuess.add(letterButton);
         }
     }
-
+    private void updateIncorrectGuessLabel(){
+        incorrectGuessLabel.setText("Total Incorrect Guesses: " + incorrectGuessCount);
+    }
     // When the game is over the player will be shown this popup which will give them the option to 
     // either quit and close the game or restart the game
     private void showEndGamePopup(String message) {

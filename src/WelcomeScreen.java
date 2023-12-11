@@ -1,6 +1,12 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,10 +18,25 @@ public class WelcomeScreen {
     static int screenHeight = screenWidth / 2;
 
     public static Scene createWelcomeScene(Stage primaryStage) {
+        ObservableList<String> options = 
+        FXCollections.observableArrayList(
+        "SFA",
+        "Computer Science",
+        "Animals",
+        "Miscellaneous",
+        "All"
+        );      
+        final ComboBox comboBox = new ComboBox(options);
+        Label genreLabel = new Label("Select a genre:");
+        HBox hBox = new HBox(genreLabel, comboBox);
+        comboBox.setOnAction(e -> GamePane.genre = (String) comboBox.getValue());
         Rectangle background = new Rectangle(0, 0, screenWidth, screenHeight);
         background.setFill(Color.BEIGE);
         Pane welcomeScreen = new Pane();
         Scene welcomeScene = new Scene(welcomeScreen, screenWidth, screenHeight);
+        BorderPane bPane = new BorderPane();
+        bPane.setTop(hBox);
+        BorderPane.setAlignment(hBox, Pos.TOP_LEFT);
         Label lblTitle = new Label();
         lblTitle.setText("Hangman");
         lblTitle.setFont(new Font(50));
@@ -36,7 +57,7 @@ public class WelcomeScreen {
         startButton.setLayoutY((welcomeScene.getHeight() - buttonHeight) / 2);
         startButton.setPrefSize(buttonWidth, buttonHeight);
 
-        welcomeScreen.getChildren().addAll(background, startButton, lblTitle, lblCredits);
+        welcomeScreen.getChildren().addAll(background, startButton, lblTitle, lblCredits, bPane);
 
         return welcomeScene;
     }
