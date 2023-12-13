@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -26,10 +27,10 @@ public class WelcomeScreen {
         "Miscellaneous",
         "All"
         );      
-        final ComboBox comboBox = new ComboBox(options);
-        Label genreLabel = new Label("Select a genre:");
-        HBox hBox = new HBox(genreLabel, comboBox);
-        comboBox.setOnAction(e -> GamePane.genre = (String) comboBox.getValue());
+        final ComboBox cmbGenre = new ComboBox(options);
+        Label lblGenre = new Label("Select a genre:");
+        HBox hBox = new HBox(lblGenre, cmbGenre);
+        cmbGenre.setOnAction(e -> GamePane.genre = (String) cmbGenre.getValue());
         Rectangle background = new Rectangle(0, 0, screenWidth, screenHeight);
         background.setFill(Color.BEIGE);
         Pane welcomeScreen = new Pane();
